@@ -200,110 +200,140 @@ while True:
             print("Invalid username or password")
 #User menus---------------------------------------------------------------------------------------------      
     elif Authentication_option==2:
-        User_Name_Authentication=input("Enter the user name:")
-        User_password_authentication=input("Enter the password :")
-        login_success = False
-        for user in users:
-            if user[0]==User_Name_Authentication and user[1]==User_password_authentication:
-                login_success = True
-                print()
-                print(f"Welcome, {User_Name_Authentication}")
-                print()
-                while True:
-                    print('='*70)
-                    print(' '*30,'User MENU',' '*30)
-                    print('='*70)
-                    print('1. View Movie')
-                    print('2. View Booking')
-                    print('3. Logout')
-                    print('='*70)
-                    user_selection=int(input("Choose Option 1 or 2 or 3"))
-#user menu operations------------------------------------------------------------------------------------
-                    if user_selection==1:
-                        for i in range(len(movies)):
-                            print(f'{i+1}.{movies[i]}')
-                        movie_selection=int(input("Select you movie option"))
-                        if 1<=movie_selection<=len(movies):
-                            mm=movies[movie_selection-1]
-                            print()
-                            print(f'You selected {mm}')
-                            print()
+        while True:
+            print('='*70)
+            print(' '*30,'User MENU',' '*30)
+            print('='*70)
+            print("1. Registration")
+            print("2. Login")
+            print("3 .Back")
+            user_menu_selection=int(input("choose option 1 0r 2 :"))
+            if user_menu_selection==1:
+                new_user=input("Enter the User Name : ")
+                new_user_password=input("enter the user Password : ")
+                if new_user and new_user_password in users:
+                    print("already registered plz login")
+                else:
+                    users.append([new_user,new_user_password])
+                    print("Registration Completed go to login menu.")
+                
+            elif user_menu_selection==2:
+                login_success = False
+                User_Name_Authentication=input("Enter the user name:")
+                User_password_authentication=input("Enter the password :")
+                for user in users:
+                    if user[0]==User_Name_Authentication and user[1]==User_password_authentication:
+                        login_success = True
+                        print()
+                        print(f"Welcome, {User_Name_Authentication}")
+                        print()
+                        while True:
                             print('='*70)
-                            print('Show Timings')
+                            print(' '*30,'User MENU',' '*30)
                             print('='*70)
-                            print()
-                            available_shows=[]
-                            for i in range(len(shows)):
-                                if mm==shows[i][0]:
-                                    available_shows.append(shows[i])
-                                    print(f"{len(available_shows)}. {shows[i][1]}")
-                            show_selection=int(input("\nSelect Show : "))
-                            if 1<=show_selection<=len(available_shows):
-                                selected_show=available_shows[show_selection-1]
-                                seat_layout=None
-                                for seat in seats:
-                                    if seat[0]==selected_show:
-                                        seat_layout=seat[1]
-                                        break
-                                if seat_layout is None:
-                                    print("Seat Layout Not Created By Admin")
-                                else:
-                                    print("="*70)
-                                    print(" "*30+"SCREEN")
-                                    print("="*70)
-                                    count = 0
-                                    for seat in seat_layout:
-                                        print(f"{seat[0]}({seat[1]})", end="\t")
-                                        count+=1
-                                        if count % 5 == 0:
-                                            print()
+                            print('1. View Movie')
+                            print('2. View Booking')
+                            print('3. Logout')
+                            print('='*70)
+                            user_selection=int(input("Choose Option 1 or 2 or 3"))
+        #user menu operations------------------------------------------------------------------------------------
+                            if user_selection==1:
+                                for i in range(len(movies)):
+                                    print(f'{i+1}.{movies[i]}')
+                                movie_selection=int(input("Select you movie option"))
+                                if 1<=movie_selection<=len(movies):
+                                    mm=movies[movie_selection-1]
                                     print()
-                                    print("A = Available    B = Booked")
-                                    seat_number = input("\nEnter Seat Number : ").upper()
-                                    found = False
-                                    for seat in seat_layout:
-                                        if seat[0]==seat_number:
-                                            found=True
-                                            if seat[1]=="A":
-                                                seat[1]="B"
-                                                bookings.append([
-                                                    User_Name_Authentication,
-                                                    mm,
-                                                    selected_show[1],
-                                                    seat_number
-                                                ])
+                                    print(f'You selected {mm}')
+                                    print()
+                                    print('='*70)
+                                    print('Show Timings')
+                                    print('='*70)
+                                    print()
+                                    available_shows=[]
+                                    for i in range(len(shows)):
+                                        if mm==shows[i][0]:
+                                            available_shows.append(shows[i])
+                                            print(f"{len(available_shows)}. {shows[i][1]}")
+                                    show_selection=int(input("\nSelect Show : "))
+                                    if 1<=show_selection<=len(available_shows):
+                                        selected_show=available_shows[show_selection-1]
+                                        seat_layout=None
+                                        for seat in seats:
+                                            if seat[0]==selected_show:
+                                                seat_layout=seat[1]
+                                                break
+                                        if seat_layout is None:
+                                            print("Seat Layout Not Created By Admin")
+                                        else:
+                                            print("="*70)
+                                            print(" "*30+"SCREEN")
+                                            print("="*70)
+                                            count = 0
+                                            for seat in seat_layout:
+                                                print(f"{seat[0]}({seat[1]})", end="\t")
+                                                count+=1
+                                                if count % 5 == 0:
+                                                    print()
+                                            print()
+                                            print("A = Available    B = Booked")
+                                            seat_number = list(map(str,input("\nEnter Seat Number : ").upper().split()))
+
+                                            booking_status=False
+                                            found = False
+                                            for seat in seat_layout:
+                                                for n in seat_number:
+                                                    if seat[0]==n:
+                                                        found=True
+                                                        if seat[1]=="A":
+                                                            seat[1]="B"
+                                                            bookings.append([
+                                                                User_Name_Authentication,
+                                                                mm,
+                                                                selected_show[1],
+                                                                n
+                                                            ])
+                                                            booking_status=True
+                                            
+                                                        else:
+                                                            booking_status=False
+                                                        break
+                                            if booking_status==True:
                                                 print("\nBooking Successful")
                                             else:
-                                                print("Seat Already Booked")
-                                            break
-                                    if found==False:
-                                        print("Invalid Seat Number")
-                            else:
-                                print("Invalid Show Selection")                            
+                                                print(" Some Seat Already Booked")
+                                            if found==False:
+                                                print("Invalid Seat Number")
+                                    else:
+                                        print("Invalid Show Selection")                            
 
-                    elif user_selection==2:
-                            print("="*70)
-                            print("Your Bookings")
-                            print("="*70)
-                            found=False
-                            for booking in bookings:
-                                if booking[0]==User_Name_Authentication:
-                                    found = True
-                                    print(f"""
-                        Movie : {booking[1]}
-                        Show  : {booking[2]}
-                        Seat  : {booking[3]}
-                        -----------------------------------
-                        """)
-                            if found==False:
-                                print("No Bookings Found")
-                    elif user_selection==3:
-                        print("Logging out.........")
-                        break
-                    else:
-                        print("Invalid option") 
-        if login_success == False:
-            print("Invalid Username or Password")
+                            elif user_selection==2:
+                                    print("="*70)
+                                    print("Your Bookings")
+                                    print("="*70)
+                                    found=False
+                                    for booking in bookings:
+                                        if booking[0]==User_Name_Authentication:
+                                            found = True
+                                            print(f"""
+                                Movie : {booking[1]}
+                                Show  : {booking[2]}
+                                Seat  : {booking[3]}
+                                -----------------------------------
+                                """)
+                                    if found==False:
+                                        print("No Bookings Found")
+                            elif user_selection==3:
+                                print("Logging out.........")
+                                break
+                            else:
+                                print("Invalid option") 
+                if login_success == False:
+                    print("Invalid Username or Password")
+            elif user_menu_selection==3:
+                    break
+            else:
+                print("invalid option")
 #-------------------------------------------------------------------------------------------------------
     elif Authentication_option==3:
         print("Thank you For Using VCube Movie Booking System")
