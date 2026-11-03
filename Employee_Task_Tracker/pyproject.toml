@@ -1,0 +1,96 @@
+# --------------------------------------------------
+# 1. PROJECT METADATA
+# Basic information about your application
+# --------------------------------------------------
+
+[project]
+name = "employee-task-tracker"
+version = "0.1.0"
+description = "A console-based Employee Task Tracking System using Python and MySQL"
+
+# Support Python 3.11 and later
+requires-python = ">=3.11"
+
+# Project documentation file
+readme = "README.md"
+
+# Libraries required to run the application
+dependencies = [
+    "mysql-connector-python",
+    "argon2-cffi",
+    "python-dotenv",
+]
+
+
+# --------------------------------------------------
+# 2. DEVELOPMENT DEPENDENCIES
+# Tools used during development and testing
+# --------------------------------------------------
+
+[project.optional-dependencies]
+dev = [
+    "pytest",       # Automated testing
+    "pytest-cov",   # Test coverage reports
+    "ruff",         # Linting and code formatting
+]
+
+
+# --------------------------------------------------
+# 3. BUILD SYSTEM
+# Defines how Python packaging tools build the project
+# --------------------------------------------------
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+
+# --------------------------------------------------
+# 4. PACKAGE DISCOVERY
+# Tells Setuptools to search for packages inside src/
+# --------------------------------------------------
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+# --------------------------------------------------
+# 5. PYTEST CONFIGURATION
+# Settings for automated tests
+# --------------------------------------------------
+
+[tool.pytest.ini_options]
+
+# Directory containing the project's test files
+testpaths = ["tests"]
+
+# Show a summary of skipped, failed, and other
+# non-passing tests
+addopts = "-ra"
+
+
+# --------------------------------------------------
+# 6. RUFF GENERAL CONFIGURATION
+# Settings for Python code quality
+# --------------------------------------------------
+
+[tool.ruff]
+
+# Preferred maximum line length
+line-length = 88
+
+# Target Python 3.11 compatibility
+target-version = "py311"
+
+
+# --------------------------------------------------
+# 7. RUFF LINT RULES
+# Select which categories of issues to check
+# --------------------------------------------------
+
+[tool.ruff.lint]
+
+# E = pycodestyle errors
+# F = Pyflakes errors, such as undefined names
+# I = import sorting
+select = ["E", "F", "I"]

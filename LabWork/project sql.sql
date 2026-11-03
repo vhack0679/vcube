@@ -1,0 +1,18 @@
+CREATE DATABASE EmployeeTaskManagmentSystem;
+USE employeetaskmanagmentsystem;
+set autocommit=0;
+CREATE TABLE employees (id INT PRIMARY KEY ,name VARCHAR(150),role VARCHAR(100),email VARCHAR(200),created_at DATETIME);
+CREATE TABLE task (id INT PRIMARY KEY,title VARCHAR(200),description TEXT(250), priority VARCHAR(150),due_date DATE,status VARCHAR (150), created_at DATETIME);
+CREATE TABLE assigned_tasks ( id INT PRIMARY KEY,task_id INT, employee_id INT, assigned_date DATE);
+CREATE TABLE comments (id INT PRIMARY KEY,task_id INT,employee_id INT,comment TEXT(250),created_at DATETIME);
+ALTER TABLE assigned_tasks  ADD CONSTRAINT  FK_id FOREIGN KEY(id) REFERENCES task(id);
+ALTER TABLE comments  ADD CONSTRAINT fk_id_comments FOREIGN KEY(id) REFERENCES assigned_tasks(id);
+ROLLBACK;
+ALTER TABLE comments DROP CONSTRAINT fk_id_comments;
+ALTER TABLE assigned_tasks DROP CONSTRAINT FK_id;
+SHOW INDEX FROM assigned_tasks;
+SHOW INDEX FROM employees;
+SHOW INDEX FROM comments;
+SHOW INDEX FROM task;
+ALTER TABLE assigned_tasks add CONSTRAINT fk_task_id FOREIGN KEY(task_id) REFERENCEs task(id), ADD CONSTRAINT fk_employee_id FOREIGN KEY(employee_id) REFERENCES employees(id);
+ALTER TABLE comments ADD CONSTRAINT fk_taskid FOREIGN KEY (task_id) REFERENCES task(id), add CONSTRAINT fk_employeeid FOREIGN KEY(employee_id) REFERENCES employees(id);
