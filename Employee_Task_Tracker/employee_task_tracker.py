@@ -515,7 +515,7 @@ def main():
             print("\n1. Login\n0. Exit")
             choice = input("Choose an option: ").strip()
             if choice == "0":
-                print("Goodbye.")
+                print("Thank You For Using My App.")
                 return
             if choice != "1":
                 print("Invalid option.")
